@@ -6,7 +6,7 @@
 /*   By: lcalvie <lcalvie@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 21:46:07 by lcalvie           #+#    #+#             */
-/*   Updated: 2022/11/16 22:04:13 by lcalvie          ###   ########.fr       */
+/*   Updated: 2022/11/16 22:29:49 by lcalvie          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,6 @@ typedef struct s_printf {
 
 	int					len_var;
 }				t_printf;
-
-int		ft_printf(const char *str, ...);
 
 void	var(const char **str, va_list v, t_printf *s);
 void	print_var(t_printf *s);

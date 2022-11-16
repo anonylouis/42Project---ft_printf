@@ -6,7 +6,7 @@
 /*   By: lcalvie <lcalvie@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 10:30:45 by lcalvie           #+#    #+#             */
-/*   Updated: 2022/11/16 22:02:54 by lcalvie          ###   ########.fr       */
+/*   Updated: 2022/11/16 22:46:40 by lcalvie          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	ft_putnbr_base(unsigned long long n, t_printf *s)
 	{
 		// pas de precison --> la len
 		// sinon min(len, precision)
-		//printf("DEBUG : len_var = %d\n", s->len_var);
+		//printf("\nDEBUG : len_var = %d, %s\n", s->len_var, s->s);
 		//printf("DEBUG : precision = %d\n", s->precision);
 		//printf("DEVUG : len = %d\n", (s->precision == -1 || (s->precision > 0 &&  s->len_var / s->precision == 0))  * s->len_var + (s->precision > 0 &&  !(s->len_var / s->precision == 0)) * s->precision);
 		s->count += write(1, s->s, (s->precision == -1 || (s->precision > 0 &&  s->len_var / s->precision == 0))  * s->len_var + (s->precision > 0 &&  !(s->len_var / s->precision == 0)) * s->precision);
@@ -26,7 +26,7 @@ void	ft_putnbr_base(unsigned long long n, t_printf *s)
 	}
 	if (s->precision == 0 && s->n == 0)
 		return ;
-	if (n >= (((int [3]){16, 16, 10})[s->i_base]))
+	if (n >= (long long unsigned) (((int [3]){16, 16, 10})[s->i_base]))
 		ft_putnbr_base(n / (((int [3]){16, 16, 10})[s->i_base]), s);
 	s->count += write(1,
 			((char *[3]){"0123456789abcdef", "0123456789ABCDEF", "0123456789"})
@@ -40,6 +40,7 @@ int		len_var(unsigned long long n, char *str, t_printf *s)
 	s->len_var = 1;
 	while (n / (((int [3]){16, 16, 10})[s->i_base]) != 0)
 		n /= (s->len_var++, (((int [3]){16, 16, 10})[s->i_base]));
+	return (0);
 }
 
 //for number
@@ -77,12 +78,3 @@ void	print_var(t_printf *s)
 	while ((s->fields)-- > 0)
 		s->count += write(1, " ", 1);
 }
-
-//nombre :
-// fields rempli de 0 si flag 0 (et pas precision) sinon espace
-
-// fields - len_affiche (si pas de flag -)     tous
-// flag # (0x ou 0X)                           si x ou X
-// flag + ou ' ' ou negatif                    si d ou i
-// putnbr
-// fields - len affiche (si flag -)
