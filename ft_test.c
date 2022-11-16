@@ -116,8 +116,19 @@ int main()
 	printf("%sft_printf: %d%s\n", italic, ft_printf("%.s\n", "test"), reset);
 	printf("%sprintf:    %d%s\n", italic,    printf("%.s\n", "test"), reset);
 
+	printf("\n%sLIMITS TESTS %s\n\n", red, reset);
+
+	ft_printf("int : %d, %i, %i, %d\n", INT_MAX, INT_MIN, INT_MAX + 1, INT_MIN - 1);
+	   printf("int : %d, %i, %i, %d\n", INT_MAX, INT_MIN, INT_MAX + 1, INT_MIN - 1);
+	
+	ft_printf("unsigned int : %u, %u, %u, %u\n", UINT_MAX, 0 , UINT_MAX + 1, -1);
+	   printf("unsigned int : %u, %u, %u, %u\n", UINT_MAX, 0 , UINT_MAX + 1, -1);
+
+	ft_printf("hexa : %x, %X, %x, %X\n", UINT_MAX, 0 , UINT_MAX + 1, -1);
+	   printf("hexa : %x, %X, %x, %X\n", UINT_MAX, 0 , UINT_MAX + 1, -1);
+
+	ft_printf("pointer: %p, %p, %p, %p\n", (void *) ULLONG_MAX, (void *) 0 , (void *) ULLONG_MAX + 1, (void *) -1);
+	   printf("pointer: %p, %p, %p, %p\n", (void *) ULLONG_MAX, (void *) 0 , (void *) ULLONG_MAX + 1, (void *) -1);
 
 	return 0;
-	
-	printf("%sOTHER TESTS %s\n", red, reset);
 }
