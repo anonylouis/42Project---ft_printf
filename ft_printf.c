@@ -6,7 +6,7 @@
 /*   By: lcalvie <lcalvie@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 21:45:13 by lcalvie           #+#    #+#             */
-/*   Updated: 2022/11/15 18:23:40 by lcalvie          ###   ########.fr       */
+/*   Updated: 2022/11/16 16:58:13 by lcalvie          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,10 @@ int	reset_s(t_printf *s)
 	s->flag = 0;
 	s->precision = -1; // foutre a 0 des qu on a un point, puis atoi a chaque int 
 	s->fields = 0;
+	s->c[1] = 0;
+	s->s = s->c;
+	s->n = 0;
+	s->len_var = 0;
 	return (1);
 }
 
