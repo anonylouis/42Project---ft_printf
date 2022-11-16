@@ -30,7 +30,7 @@ re :	fclean all
 bonus : all
 
 test :	all
-		$(GCC) $(FLAGS) -Wno-overflow -o printf test.c $(NAME)
+		$(GCC) $(FLAGS) -Wno-overflow -Wno-format -o printf test.c $(NAME)
 
 $(OBJS_DIR)%.o :	$(SRCS_DIR)%.c $(HDRS)
 					mkdir -p $(OBJS_DIR)

@@ -6,7 +6,7 @@
 /*   By: lcalvie <lcalvie@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 21:46:07 by lcalvie           #+#    #+#             */
-/*   Updated: 2022/11/16 22:29:49 by lcalvie          ###   ########.fr       */
+/*   Updated: 2022/11/16 23:00:37 by lcalvie          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ typedef struct s_printf {
 	int					flag;
 	long				fields;
 	int					precision;
+	int					precision_save;
 	int					i_base;
 
 	unsigned long long	n;

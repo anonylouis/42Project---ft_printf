@@ -101,8 +101,8 @@ int main()
 	printf("%sprintf:    %d%s\n", italic,    printf("%.u %.i %.d %.x %.X %.s\n", 42, 42, 42, 42 ,42, "test"), reset);
 
 	printf("\ntest 11: \n");
-	printf("%sft_printf: %d%s\n", italic, ft_printf("%10.u %10.0i %10.0d %10.0x %10.0X %10.0s|\n", 0, 1, 2, 3, 4, "test"), reset);
-	printf("%sprintf:    %d%s\n", italic,    printf("%10.u %10.0i %10.0d %10.0x %10.0X %10.0s|\n", 0, 1, 2, 3, 4, "test"), reset);
+	printf("%sft_printf: %d%s\n", italic, ft_printf("%10.u/%10.0i %10.0d %10.0x %10.0X %10.0s|\n", 0, 1, 2, 3, 4, "test"), reset);
+	printf("%sprintf:    %d%s\n", italic,    printf("%10.u/%10.0i %10.0d %10.0x %10.0X %10.0s|\n", 0, 1, 2, 3, 4, "test"), reset);
 
 	printf("\ntest 12: \n");
 	printf("%sft_printf: %d%s\n", italic, ft_printf(" NULL %10.4s NULL \n", svoid), reset);
@@ -116,6 +116,14 @@ int main()
 	printf("%sft_printf: %d%s\n", italic, ft_printf("%.s\n", "test"), reset);
 	printf("%sprintf:    %d%s\n", italic,    printf("%.s\n", "test"), reset);
 
+	printf("\ntest 15: \n");
+	ft_printf("%.4i, %.2i, %.20i, %.0i, %.0i, %.i, %.i, %.i\n", 127, 0, 1023, 0, (int)-2147483648, 0, 1, (int)-2147483648);
+	   printf("%.4i, %.2i, %.20i, %.0i, %.0i, %.i, %.i, %.i\n", 127, 0, 1023, 0, (int)-2147483648, 0, 1, (int)-2147483648);
+	
+	printf("\ntest 16: \n");
+	printf("%sft_printf: %d%s\n", italic, ft_printf("%c%c%c*|\n", '\0', '1', 1), reset);
+	printf("%sft_printf: %d%s\n", italic,    printf("%c%c%c*|\n", '\0', '1', 1), reset);
+	
 	printf("\n%sLIMITS TESTS %s\n\n", red, reset);
 
 	ft_printf("int : %d, %i, %i, %d\n", INT_MAX, INT_MIN, INT_MAX + 1, INT_MIN - 1);
@@ -130,5 +138,19 @@ int main()
 	ft_printf("pointer: %p, %p, %p, %p\n", (void *) ULLONG_MAX, (void *) 0 , (void *) ULLONG_MAX + 1, (void *) -1);
 	   printf("pointer: %p, %p, %p, %p\n", (void *) ULLONG_MAX, (void *) 0 , (void *) ULLONG_MAX + 1, (void *) -1);
 
+	ft_printf("null = %s\n", svoid);
+	printf("null = %s|\n", svoid);
+
+	ft_printf("%----c, i%---c, p%4c, s%--11c, x\n", 'a', 'b', 'c', 'd');
+	printf("%----c, i%---c, p%4c, s%--11c, x\n", 'a', 'b', 'c', 'd');
+	
+	ft_printf("|%03.d|\n", 0);
+	printf("|%03.d|\n", 0);
+
+	ft_printf("%042.2d|\n", 42000);
+	printf("%042.2d|\n", 42000);
+
+	ft_printf("%#x\n", 0);
+	printf("%#x\n", 0);
 	return 0;
 }

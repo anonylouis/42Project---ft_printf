@@ -6,7 +6,7 @@
 /*   By: lcalvie <lcalvie@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 22:54:30 by lcalvie           #+#    #+#             */
-/*   Updated: 2022/11/16 22:08:48 by lcalvie          ###   ########.fr       */
+/*   Updated: 2022/11/16 23:43:46 by lcalvie          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,15 @@ void	flag(const char **str, t_printf *s)
 	if (**str != 99 && **str != 115 && **str != 112 && **str != 100
 		&& **str != 88 && **str != 105 && **str != 117 && **str != 120 && **str)
 	{
-		if (**str == 32)
+		if (**str == 32  && !(s->flag & SPACE))
 			s->flag += SPACE;
-		if (**str == 43)
+		if (**str == 43  && !(s->flag & PLUS))
 			s->flag += PLUS;
-		if (**str == 35)
+		if (**str == 35 && !(s->flag & HASHTAG))
 			s->flag += HASHTAG;
-		if (**str == 45)
+		if (**str == 45 && !(s->flag & MINUS))
 			s->flag += MINUS;
-		if (s->precision == -1 && s->fields == 0 && **str == 48)
+		if (s->precision == -1 && s->fields == 0 && **str == 48 && !(s->flag & ZEROS))
 			s->flag += ZEROS;
 		else if (s->precision == -1 && **str > 47 && **str < 58)
 			s->fields = 10 * s->fields + **str - 48;
@@ -57,7 +57,8 @@ void	var(const char **str, va_list v, t_printf *s)
 	printf("DEBUG : flag = %d\n", s->flag);
 	printf("DEBUG : fields = %ld\n", s->fields);
 	printf("DEBUG : precision = %d\n", s->precision);
-	printf("DEBUG : i_base = %d\n", s->i_base);*/
+	printf("DEBUG : i_base = %d\n", s->i_base);
+	printf("DEBUG : n = %llu\n", s->n);*/
 
 	// recup l arugment dans va_arg
 	if (s->type == 100 || s->type == 105)
@@ -80,9 +81,9 @@ void	var(const char **str, va_list v, t_printf *s)
 		s->type = 115;
 		s->s = NULL_POINTER;
 	}
-	if (s->type == 115 && !(s->s) && s->precision >= 6)
+	if (s->type == 115 && !(s->s) && (s->precision == -1 || s->precision >= 6))
 		s->s = NULL_STRING;
-
+	s->precision_save = s->precision;
 	print_var(s);
 
 }
