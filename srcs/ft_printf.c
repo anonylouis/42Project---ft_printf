@@ -6,7 +6,7 @@
 /*   By: lcalvie <lcalvie@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 21:45:13 by lcalvie           #+#    #+#             */
-/*   Updated: 2022/11/17 02:36:55 by lcalvie          ###   ########.fr       */
+/*   Updated: 2022/11/17 12:32:25 by lcalvie          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void	flag(const char **str, t_printf *s)
 {
-	if (**str != 99 && **str != 115 && **str != 112 && **str != 100
-		&& **str != 88 && **str != 105 && **str != 117 && **str != 120 && **str)
+	if (**str && ((**str > 47 && **str < 58) || **str == 43 || **str == 45
+			|| **str == 46 || **str == 35 || **str == 32))
 	{
 		if (**str == 32 && !(s->flag & SPACE))
 			s->flag += SPACE;
@@ -51,7 +51,11 @@ long	flag_negative(va_list v, t_printf *s)
 
 void	var(const char **str, va_list v, t_printf *s)
 {
-	(flag(str, s), (*str)++);
+	if ((flag(str, s), (s->type != 99 && s->type != 115 && s->type != 112
+				&& s->type != 100 && s->type != 88 && s->type != 105
+				&& s->type != 117 && s->type != 120) && write(1, "%", 1)))
+		return ;
+	*str += 1;
 	if (s->type == 100 || s->type == 105)
 		s->n = flag_negative(v, s);
 	else if (s->type == 88 || s->type == 117 || s->type == 120)
@@ -93,7 +97,7 @@ int	ft_printf(const char *str, ...)
 
 	s.count = 0;
 	va_start(v, str);
-	while (*str)
+	while (str && *str)
 	{
 		if (*str == 37 && (++str, 1) && *str != 37 && reset_s(&s))
 			var(&str, v, &s);

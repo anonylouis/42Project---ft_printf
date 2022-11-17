@@ -139,18 +139,29 @@ int main()
 	   printf("pointer: %p, %p, %p, %p\n", (void *) ULLONG_MAX, (void *) 0 , (void *) ULLONG_MAX + 1, (void *) -1);
 
 	ft_printf("null = %s\n", svoid);
-	printf("null = %s|\n", svoid);
+	   printf("null = %s|\n", svoid);
 
 	ft_printf("%----c, i%---c, p%4c, s%--11c, x\n", 'a', 'b', 'c', 'd');
-	printf("%----c, i%---c, p%4c, s%--11c, x\n", 'a', 'b', 'c', 'd');
+	   printf("%----c, i%---c, p%4c, s%--11c, x\n", 'a', 'b', 'c', 'd');
 	
 	ft_printf("|%03.d|\n", 0);
-	printf("|%03.d|\n", 0);
+	   printf("|%03.d|\n", 0);
 
 	ft_printf("%042.2d|\n", 42000);
-	printf("%042.2d|\n", 42000);
+	   printf("%042.2d|\n", 42000);
 
 	ft_printf("%#x\n", 0);
-	printf("%#x\n", 0);
+	   printf("%#x\n", 0);
+
+	printf("\n%sCRASH TESTS %s\n\n", red, reset);
+
+	ft_printf(NULL);
+	ft_printf("");
+	ft_printf("With nothing\n\n");
+	
+	ft_printf("|non existant conversion : %k%@: end|\n");
+	   printf("|non existant conversion : %k%@: end|\n");
+
+
 	return 0;
 }
