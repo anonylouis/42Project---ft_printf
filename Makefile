@@ -3,7 +3,7 @@ FLAGS = -Wall -Wextra -Werror -g
 NAME = libftprintf.a
 
 SRCS_DIR = ./srcs/
-SOURCES = ft_printf.c var.c print_var.c
+SOURCES = ft_printf.c print_var.c
 SRCS = $(addprefix $(SRCS_DIR), $(SOURCES))
 
 OBJS_DIR = ./objs/

@@ -6,62 +6,52 @@
 /*   By: lcalvie <lcalvie@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 10:30:45 by lcalvie           #+#    #+#             */
-/*   Updated: 2022/11/16 23:52:16 by lcalvie          ###   ########.fr       */
+/*   Updated: 2022/11/17 02:36:58 by lcalvie          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void	ft_putnbr_base(unsigned long long n, t_printf *s)
+void	write_var(unsigned long long n, t_printf *s)
 {
 	if (s->type == 99 || s->type == 115)
 	{
-		// pas de precison --> la len
-		// sinon min(len, precision)
-		//printf("\nDEBUG : len_var = %d, %s\n", s->len_var, s->s);
-		//printf("DEBUG : precision = %d\n", s->precision);
-		//printf("DEVUG : len = %d\n", (s->precision == -1 || (s->precision > 0 &&  s->len_var / s->precision == 0))  * s->len_var + (s->precision > 0 &&  !(s->len_var / s->precision == 0)) * s->precision);
-		s->count += write(1, s->s, (s->precision == -1 || (s->precision > 0 &&  s->len_var / s->precision == 0))  * s->len_var + (s->precision > 0 &&  !(s->len_var / s->precision == 0)) * s->precision);
+		s->count += write(1, s->s, (s->pre == -1 || (s->pre > 0
+						&& s->len_var / s->pre == 0)) * s->len_var
+				+ (s->pre > 0 && !(s->len_var / s->pre == 0)) * s->pre);
 		return ;
 	}
-	if (s->precision_save == 0 && s->n == 0)
+	if (s->pre_save == 0 && s->n == 0)
 		return ;
-	if (n >= (long long unsigned) (((int [3]){16, 16, 10})[s->i_base]))
-		ft_putnbr_base(n / (((int [3]){16, 16, 10})[s->i_base]), s);
+	if (n >= (long long unsigned)(((int [3]){16, 16, 10})[s->i_base]))
+		write_var(n / (((int [3]){16, 16, 10})[s->i_base]), s);
 	s->count += write(1,
 			((char *[3]){"0123456789abcdef", "0123456789ABCDEF", "0123456789"})
 		[s->i_base] + n % (((int [3]){16, 16, 10})[s->i_base]), 1);
 }
 
-int		len_var(unsigned long long n, char *str, t_printf *s)
+int	len_var(unsigned long long n, char *str, t_printf *s)
 {
 	if (s->type == 115)
 		return (str && *str && ++s->len_var && len_var(n, ++str, s));
-	s->len_var = (s->type == 99 || !(s->precision_save == 0 && s->n == 0));
+	s->len_var = (s->type == 99 || !(s->pre_save == 0 && s->n == 0));
 	while (n / (((int [3]){16, 16, 10})[s->i_base]) != 0)
 		n /= (s->len_var++, (((int [3]){16, 16, 10})[s->i_base]));
 	return (0);
 }
 
-//for number
 void	print_var(t_printf *s)
 {
-
-	//printf("\nn = %llu\n", s->n);
-	s->fields -= (len_var(s->n, s->s, s), ((s->flag & 0b111) > 0) + 2 * (s->type == 112 || ((s->flag & HASHTAG) > 0)));
-	//printf("\nDEBUG : len_var = %d\n", s->len_var);
-	
-	//printf("\nDEBUG : fields = %ld\n", s->fields);
-	// printf("DEBUG : precision = %d\n", s->precision);
-	//pour des string : on enleve min (len_var, precision), si y'a une precision ! pas de precision = on enelve len_var
+	s->fields -= (len_var(s->n, s->s, s), ((s->flag & 0b111) > 0)
+			+ 2 * (s->type == 112 || ((s->flag & HASHTAG) > 0)));
 	if (s->type == 115 || s->type == 99)
-		s->fields -= (s->precision == -1 || (s->precision > 0 &&  s->len_var / s->precision == 0)) * s->len_var + (s->precision > 0 &&  !(s->len_var / s->precision == 0)) * s->precision;
+		s->fields -= (s->pre == -1 || (s->pre > 0 && s->len_var / s->pre == 0))
+			* s->len_var + (s->pre > 0 && !(s->len_var / s->pre == 0)) * s->pre;
 	else
-		s->fields -= (s->precision > 0 &&  s->len_var / s->precision == 0) * s->precision + (s->precision < 1 || (s->precision > 0 &&  !(s->len_var / s->precision == 0))) * s->len_var;
-	
-	//printf("\nDEBUG : fields = %ld\n", s->fields);
-	//printf("\nDEBUG : precision = %d\n", s->precision);
-	while (!(s->flag & 16) && (!(s->flag & 32) || s->precision > 0) && (s->fields)-- > 0)
+		s->fields -= (s->pre > 0 && !(s->len_var / s->pre)) * s->pre
+			+ (s->pre < 1 || (s->pre > 0 && s->len_var / s->pre)) * s->len_var;
+	while (!(s->flag & 16) && (!(s->flag & 32)
+			|| s->pre > 0) && (s->fields)-- > 0)
 		s->count += write(1, " ", 1);
 	if ((s->flag & HASHTAG && s->n) || s->type == 112)
 		s->count += write(1, ((char *[2]){"0x", "0X"})[s->type == 'X'], 2);
@@ -69,14 +59,11 @@ void	print_var(t_printf *s)
 		s->count += write(1, ((char *[3]){" ", "+", "-"})
 			[2 * ((s->flag & NEGATIVE) > 0) + 1 * (s->flag & PLUS
 					&& !(s->flag & NEGATIVE))], 1);
-	while ((s->flag & 0b110000) == ZEROS && s->precision == -1 && (s->fields)-- > 0)
+	while ((s->flag & 48) == 32 && s->pre == -1 && (s->fields)-- > 0)
 		s->count += write(1, "0", 1);
-	//printf("\nDEBUG : precision = %d\n", s->precision);
-	//printf("\nDEBUG : len_var = %d\n", s->len_var);
-	while (s->type != 115 && s->type != 99 && (s->precision)-- > s->len_var)
+	while (s->type != 115 && s->type != 99 && (s->pre)-- > s->len_var)
 		s->count += write(1, "0", 1);
-	//printf("putnbr\n");
-	ft_putnbr_base(s->n, s);
+	write_var(s->n, s);
 	while ((s->fields)-- > 0)
 		s->count += write(1, " ", 1);
 }
