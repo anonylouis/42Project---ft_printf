@@ -25,3 +25,9 @@ And you can add the followings flags on the adapted specifiers :
 - flag ` ` (space)
 - flag `+`
 - the field minimum width
+
+## Commands
+
+Use :
+- `make` to compile the *libftprintf.a library*
+- `make test` to compile the tests from ```test.c```
